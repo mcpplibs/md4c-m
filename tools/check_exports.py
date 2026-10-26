@@ -4,8 +4,9 @@
 Every typedef, enum, enumerator, struct and function of <md4c.h> must be
 exported by src/md4c.cppm, md_html by src/html.cppm, and every object-like
 MD_FLAG_* / MD_DIALECT_* / MD_HTML_FLAG_* macro mapped in src/macros.cppm.
-The headers are read from compat.md4c's installed tarball (md4c.h) and from
-upstream/md4c/src (md4c-html.h).
+<md4c.h> is read from the upstream release tarball (fetched and verified by
+run_conformance.fetch, the same bytes compat.md4c builds), <md4c-html.h> from
+upstream/md4c/src.
 """
 from pathlib import Path
 import re
@@ -17,11 +18,9 @@ def strip_comments(text: str) -> str:
 
 
 def find_md4c_h(root: Path) -> Path:
-    for base in [root / 'target/upstream', Path.home() / '.mcpp/registry/data/xpkgs']:
-        for path in sorted(base.rglob('md4c.h')) if base.exists() else []:
-            if 'md4c-release-0.5.3' in path.as_posix():
-                return path
-    sys.exit('md4c.h not found: build once (mcpp build) or run tools/run_conformance.py')
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from run_conformance import fetch
+    return fetch(root).parent / 'src/md4c.h'
 
 
 def names_of(header: str):
