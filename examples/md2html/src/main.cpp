@@ -2,6 +2,14 @@
 // dialect options, so md4c's own test/run-testsuite.py can drive this build:
 //
 //     md2html [--commonmark | --github] [--f<extension> ...] [--xhtml] [FILE]
+//
+// Input and output are bytes: on Windows the standard streams are switched
+// out of text mode, which would otherwise rewrite line endings (and the
+// suites have examples with CR in them).
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
 import std;
 import mcpplibs.mwrap.md4c;
 
@@ -41,6 +49,10 @@ constexpr std::array options{
 }  // namespace
 
 int main(int argc, char** argv) {
+#ifdef _WIN32
+    _setmode(0, _O_BINARY);
+    _setmode(1, _O_BINARY);
+#endif
     unsigned parser = 0, renderer = macros::MD_HTML_FLAG_SKIP_UTF8_BOM;
     std::optional<std::string> file;
     for (int i = 1; i < argc; ++i) {
