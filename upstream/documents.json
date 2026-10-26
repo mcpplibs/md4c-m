@@ -1,0 +1,39 @@
+{
+  "upstream": "https://github.com/mity/md4c/archive/refs/tags/release-0.5.3.tar.gz",
+  "upstream_sha256": "353c346f376b87c954a13f3415ede2d51264cc61dc5abcd38ff1d2aa0d059b9e",
+  "pruning": "Only the md4c-html renderer library (md4c-html.c/.h, entity.c/.h) is vendored; the parser md4c.c/md4c.h is compat.md4c 0.5.3 from the same tarball.",
+  "documents": [
+    {
+      "path": "upstream/md4c/README.md",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/README.md",
+      "sha256": "4b379f85a6cd090c2e2fe7722586536f303daba7a1ac9935d0dd755ab64d21c9"
+    },
+    {
+      "path": "upstream/md4c/LICENSE.md",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/LICENSE.md",
+      "sha256": "d30937367d5413e7eaa218b1640b8946ff76fd34d97152f6979fd96169d5d0fc"
+    }
+  ],
+  "sources": [
+    {
+      "path": "upstream/md4c/src/md4c-html.c",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/src/md4c-html.c",
+      "sha256": "41721db6f0ecafef5228b5d730bd75e0a132c5ff390db95dfcb19705fa3e2e20"
+    },
+    {
+      "path": "upstream/md4c/src/md4c-html.h",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/src/md4c-html.h",
+      "sha256": "e29c5e190884b2e36c5f2131b880b52ab0556091374cd3a3133145d0aa224814"
+    },
+    {
+      "path": "upstream/md4c/src/entity.c",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/src/entity.c",
+      "sha256": "002005fea65257438d04d6f16c060bd73e0e0355dbb31c3f40814ab5aa75a935"
+    },
+    {
+      "path": "upstream/md4c/src/entity.h",
+      "source": "https://github.com/mity/md4c/blob/release-0.5.3/src/entity.h",
+      "sha256": "7d021cb683c0e7643df6ce0db51d75f8cbc313be9ec754cb4dc18c40ebaa400b"
+    }
+  ]
+}

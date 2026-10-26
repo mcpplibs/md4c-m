@@ -1,0 +1,74 @@
+// {{project.name}} — Markdown to HTML (md_html) and an outline of its headings
+// (md_parse callbacks), with GitHub's extensions.
+import std;
+import mcpplibs.mwrap.md4c;
+
+namespace macros = mcpplibs::mwrap::md4c::macros;
+
+constexpr std::string_view sample = R"(# Release notes
+
+Version **0.5.3** brings ~~nothing old~~ everything new.
+
+## Checklist
+
+- [x] parse with `md_parse`
+- [ ] render with `md_html`
+
+| Feature | Flag            |
+|---------|-----------------|
+| tables  | `MD_FLAG_TABLES` |
+)";
+
+struct Outline {
+    std::vector<std::string> headings;
+    unsigned                 level = 0;  // inside a heading of this level
+};
+
+int main(int argc, char** argv) {
+    std::string source(sample);
+    if (argc > 1) {
+        std::ifstream in(argv[1], std::ios::binary);
+        if (!in) {
+            std::println(std::cerr, "cannot read {}", argv[1]);
+            return 1;
+        }
+        source.assign(std::istreambuf_iterator<char>(in), {});
+    }
+    const auto size = static_cast<MD_SIZE>(source.size());
+
+    std::string html;
+    const int rendered = md_html(
+        source.data(), size, [](const MD_CHAR* s, MD_SIZE n, void* out) { static_cast<std::string*>(out)->append(s, n); }, &html,
+        macros::MD_DIALECT_GITHUB, 0);
+
+    Outline outline;
+    MD_PARSER parser{};
+    parser.flags = macros::MD_DIALECT_GITHUB;
+    parser.enter_block = [](MD_BLOCKTYPE type, void* detail, void* user) {
+        auto& o = *static_cast<Outline*>(user);
+        if (type == MD_BLOCK_H) {
+            o.level = static_cast<MD_BLOCK_H_DETAIL*>(detail)->level;
+            o.headings.emplace_back(std::string(2 * (o.level - 1), ' '));
+        }
+        return 0;
+    };
+    parser.leave_block = [](MD_BLOCKTYPE type, void*, void* user) {
+        if (type == MD_BLOCK_H) static_cast<Outline*>(user)->level = 0;
+        return 0;
+    };
+    parser.enter_span = [](MD_SPANTYPE, void*, void*) { return 0; };
+    parser.leave_span = [](MD_SPANTYPE, void*, void*) { return 0; };
+    parser.text = [](MD_TEXTTYPE, const MD_CHAR* s, MD_SIZE n, void* user) {
+        auto& o = *static_cast<Outline*>(user);
+        if (o.level) o.headings.back().append(s, n);
+        return 0;
+    };
+    const int parsed = md_parse(source.data(), size, &parser, &outline);
+
+    std::print("{}", html);
+    std::println("-- outline");
+    for (const auto& h : outline.headings) std::println("{}", h);
+    const bool ok = rendered == 0 && parsed == 0 && (argc > 1 || (outline.headings.size() == 2 && html.contains("<table>") &&
+                                                                  html.contains("checked") && html.contains("<del>")));
+    return ok ? 0 : 1;
+}

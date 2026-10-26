@@ -1,0 +1,12 @@
+[package]
+name        = "md2html"
+version     = "0.1.0"
+description = "Markdown on stdin (or a file) to HTML on stdout through import mcpplibs.mwrap.md4c; the program upstream's test suites drive"
+license     = "Apache-2.0"
+
+[targets.md2html]
+kind = "bin"
+main = "src/main.cpp"
+
+[dependencies]
+"mcpplibs.mwrap.md4c" = { path = "../.." }

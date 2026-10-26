@@ -1,0 +1,45 @@
+# Module wrapper; upstream API preserved. Policy: mcpp-index/docs/mwrap.md.
+[package]
+namespace   = "mcpplibs.mwrap"
+name        = "md4c"
+version     = "0.5.3"
+description = "MD4C 0.5.3 C++ modules for mcpp (import mcpplibs.mwrap.md4c;): the CommonMark / GFM parser over compat.md4c and the md4c-html renderer"
+license     = "Apache-2.0"
+authors     = ["mcpp-community"]
+repo        = "https://github.com/mcpplibs/md4c-m"
+platforms   = ["linux", "macos", "windows"]
+
+[targets.md4c]
+kind = "lib"
+
+[build]
+# The parser (md4c.c) is compat.md4c's; this package owns upstream's second
+# library, md4c-html, vendored byte for byte under upstream/md4c/src.
+sources      = ["src/*.cppm", "upstream/md4c/src/md4c-html.c", "upstream/md4c/src/entity.c"]
+include_dirs = ["upstream/md4c/src"]
+c_standard   = "c99"
+
+[dependencies]
+compat.md4c = "0.5.3"
+
+[dev-dependencies]
+compat.gtest = "1.15.2"
+
+[package.metadata.mwrap]
+upstream-version = "0.5.3"
+
+[[runtime.deploy]]
+from = "LICENSE"
+to   = "licenses/md4c"
+
+[[runtime.deploy]]
+from = "NOTICE"
+to   = "licenses/md4c"
+
+[[runtime.deploy]]
+from = "upstream/md4c/README.md"
+to   = "licenses/md4c/upstream/md4c"
+
+[[runtime.deploy]]
+from = "upstream/md4c/LICENSE.md"
+to   = "licenses/md4c/upstream/md4c"

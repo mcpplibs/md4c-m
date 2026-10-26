@@ -1,0 +1,4 @@
+[template]
+description  = "Render Markdown to HTML and walk its headings with import mcpplibs.mwrap.md4c"
+default      = true
+post_message = "Run `mcpp run`, or `mcpp run -- <file.md>` for your own document."

@@ -1,0 +1,9 @@
+md4c-m: C++ module wrapper
+Copyright (c) 2026 mcpp-community contributors
+
+The wrapper contributions are licensed under the Apache License, Version 2.0.
+Upstream code, copied interfaces and dependencies retain their original
+licenses and copyright notices. MD4C is Copyright (c) 2016-2024 Martin Mitáš
+and is distributed under the MIT license; its original README and license are
+retained in upstream/md4c/, together with the vendored md4c-html sources.
+Provenance and checksums are recorded in upstream/documents.json.
