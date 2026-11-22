@@ -2,7 +2,7 @@
 [package]
 namespace   = "mcpplibs.mwrap"
 name        = "md4c"
-version     = "0.5.3"
+version     = "0.5.3.1"
 description = "MD4C 0.5.3 C++ modules for mcpp (import mcpplibs.mwrap.md4c;): the CommonMark / GFM parser over compat.md4c and the md4c-html renderer"
 license     = "Apache-2.0"
 authors     = ["mcpp-community"]

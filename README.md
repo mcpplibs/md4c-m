@@ -26,7 +26,7 @@ extensions, regressions: 808 examples) pass through the module on every CI run.
 ## Getting started
 
 ```sh
-mcpp new notes --template mcpplibs.mwrap.md4c@0.5.3
+mcpp new notes --template mcpplibs.mwrap.md4c@0.5.3.1
 cd notes
 mcpp run
 ```
@@ -36,7 +36,7 @@ prints the outline of its headings from the `md_parse` callbacks.
 
 ```toml
 [dependencies]
-"mcpplibs.mwrap.md4c" = "0.5.3"
+mcpplibs.mwrap.md4c = "0.5.3.1"
 ```
 
 ```cpp
